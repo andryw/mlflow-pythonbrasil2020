@@ -1,0 +1,11 @@
+#Python
+.ipynb_checkpoints/
+__pycache__/
+
+#MLFlow runs
+mlruns/
+
+#env
+pythonbrasil-env/
+
+data/
