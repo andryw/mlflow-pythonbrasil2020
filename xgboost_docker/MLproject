@@ -1,6 +1,6 @@
 name: xgboost-docker-example
 docker_env:
-  image:  mlflow-docker-example
+  image:  mlflow-iris-xgboost
 entry_points:
   main:
     parameters:

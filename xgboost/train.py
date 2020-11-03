@@ -5,7 +5,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, log_loss
 import xgboost as xgb
 import matplotlib as mpl
-from mlflow.utils.file_utils import TempDir
 import os
 
 import mlflow
@@ -43,7 +42,7 @@ def main():
 
     with mlflow.start_run():
 
-        # train model
+        # define parameters
         params = {
             'objective': 'multi:softprob',
             'num_class': 3,
@@ -53,6 +52,8 @@ def main():
             'subsample': args.subsample,
             'seed': 42,
         }
+
+        # train model
         model = xgb.train(params, dtrain, evals=[(dtrain, 'train')])
 
         # evaluate model
@@ -60,6 +61,9 @@ def main():
         y_pred = y_proba.argmax(axis=1)
         loss = log_loss(y_test, y_proba)
         acc = accuracy_score(y_test, y_pred)
+
+        # explicitly log parameter
+        mlflow.log_param("model", 'xgboost')
 
         # log metrics
         mlflow.log_metrics({'log_loss': loss, 'accuracy': acc})
